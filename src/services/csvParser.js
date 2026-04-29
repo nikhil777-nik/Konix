@@ -35,6 +35,7 @@ const parseCsv = (filePath) => {
         if (!timestamp || isNaN(timestamp.getTime())) {
           isValid = false;
           invalidReason.push('Invalid or missing timestamp');
+          timestamp = null;
         }
         if (quantity === null || isNaN(quantity)) {
           isValid = false;
