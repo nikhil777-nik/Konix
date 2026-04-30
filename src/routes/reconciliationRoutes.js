@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const os = require('os');
 const {
   reconcile,
   getReport,
@@ -8,7 +9,7 @@ const {
 } = require('../controllers/reconciliationController');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: os.tmpdir() });
 
 router.post('/reconcile', upload.fields([
   { name: 'user_transactions', maxCount: 1 },
