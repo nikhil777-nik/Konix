@@ -69,7 +69,8 @@ exports.runReconciliation = async (userFile, exchangeFile, configOverrides) => {
             const timeDiffSec = Math.abs(uTx.timestamp - eTx.timestamp) / 1000;
             const isTimeWithin = timeDiffSec <= config.timestampToleranceSeconds;
             
-            const qtyDiffPct = Math.abs(uTx.quantity - eTx.quantity) / Math.max(uTx.quantity, eTx.quantity);
+            const maxQty = Math.max(uTx.quantity, eTx.quantity);
+            const qtyDiffPct = maxQty === 0 ? 0 : (Math.abs(uTx.quantity - eTx.quantity) / maxQty) * 100;
             const isQtyWithin = qtyDiffPct <= config.quantityTolerancePct;
 
             if (isTimeWithin && isQtyWithin) {

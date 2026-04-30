@@ -23,7 +23,7 @@ This is a Node.js based Transaction Reconciliation Engine that ingests crypto tr
 
 ### 1. Trigger Reconciliation Run
 - **Method**: `POST`
-- **Endpoint**: `/api/reconcile`
+- **Endpoint**: `/reconcile`
 - **Description**: Trigger reconciliation run by uploading the two CSV files.
 - **Form-Data**:
   - `user_transactions`: (File) The CSV from the user.
@@ -34,17 +34,17 @@ This is a Node.js based Transaction Reconciliation Engine that ingests crypto tr
 
 ### 2. Fetch Full Reconciliation Report
 - **Method**: `GET`
-- **Endpoint**: `/api/report/:runId`
+- **Endpoint**: `/report/:runId`
 - **Description**: Downloads the full reconciliation report in CSV format.
 
 ### 3. Fetch Summary
 - **Method**: `GET`
-- **Endpoint**: `/api/report/:runId/summary`
+- **Endpoint**: `/report/:runId/summary`
 - **Description**: Returns the JSON summary count of matched, conflicting, and unmatched transactions.
 
 ### 4. Fetch Unmatched Rows
 - **Method**: `GET`
-- **Endpoint**: `/api/report/:runId/unmatched`
+- **Endpoint**: `/report/:runId/unmatched`
 - **Description**: Returns JSON array of all unmatched transaction rows with reasons.
 
 ## Key Decisions & Assumptions
@@ -53,3 +53,4 @@ This is a Node.js based Transaction Reconciliation Engine that ingests crypto tr
 - **Data Normalization**: Values are dynamically parsed and normalized (e.g. `BITCOIN` to `BTC`). If fields are completely unparseable, rows are flagged with a specific `invalidReason` rather than dropped.
 - **Reporting**: The generated CSV report dynamically merges columns from both the user and exchange transactions so that no raw data is lost, appending `User_` and `Exchange_` prefixes to the headers.
 - **Type Aliasing**: `TRANSFER_OUT` from the user's perspective is considered equivalent to `TRANSFER_IN` from the exchange's perspective and vice versa.
+- **Percentage Configuration Logic**: Updated percentage evaluation so if the `.env` specifies a quantity tolerance like `0.01`, it correctly evaluates as a percentage mathematically instead of comparing against flat decimal ratios, making configuration much more intuitive.

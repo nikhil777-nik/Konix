@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/api', reconciliationRoutes);
+app.use('/', reconciliationRoutes);
 
 // Basic error handler
 app.use((err, req, res, next) => {
